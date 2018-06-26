@@ -64,12 +64,12 @@ class CountText extends StatelessWidget {
 }
 
 class CountBloc {
-  int count;
+  int count = 0;
 
-  //
+  // input stream
   final _onPressCountNum = BehaviorSubject<int>(seedValue: 10);
 
-  Stream<int> get onPressCountNum => _onPressCountNum.stream;
+  Stream<int> get onPressCountNum => _onPressCountNum;
 
   final _countController = StreamController<int>();
 
@@ -77,12 +77,14 @@ class CountBloc {
     _countController.stream.listen(_handleAddition);
   }
 
+  // input
   Sink<int> get countAddition => _countController.sink;
 
   void _handleAddition(int event) {
     print('_handleAddition event is:$event');
+    count++;
 
-    _onPressCountNum.add(event);
+    _onPressCountNum.add(count);
   }
 }
 
