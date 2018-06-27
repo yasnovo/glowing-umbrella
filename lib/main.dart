@@ -52,11 +52,11 @@ class CountText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final countBloc = CountProvider.of(context);
-    return StreamBuilder<int>(
+    return StreamBuilder<int>(initialData: 10,
       stream: countBloc.onPressCountNum,
       builder: ((context, snapshot) {
         return new Column(children: <Widget>[
-          new Text(snapshot.data.toString()),
+          new Center(child: new Text(snapshot.data.toString(), style: new TextStyle(fontSize:30.0),)),
         ]);
       }),
     );
@@ -67,9 +67,10 @@ class CountBloc {
   int count = 0;
 
   // input stream
-  final _onPressCountNum = BehaviorSubject<int>(seedValue: 10);
+  final _onPressCountNum = BehaviorSubject<int>();
 
-  Stream<int> get onPressCountNum => _onPressCountNum;
+  // output stream
+  Stream<int> get onPressCountNum => _onPressCountNum.asyncMap((value){return 10*value;});
 
   final _countController = StreamController<int>();
 
